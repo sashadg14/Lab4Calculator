@@ -11,6 +11,7 @@ public class NodeHandler {
     int noOfOperation =-1;
     public NodeHandler(){
         operationNodeList= new LinkedList<>();
+        operationNodeList.add(new OperationNode(null,"",null,0));
     }
 
     public void NextStep(){
@@ -24,6 +25,10 @@ public class NodeHandler {
         operationNodeList.get(noOfOperation).setAsLeaf(false);
         noOfOperation--;
         }
+    }
+
+    public List<OperationNode> getOperationNodeList() {
+        return operationNodeList;
     }
 
     public void setOperationNodeList(List<OperationNode> operationNodeList) {

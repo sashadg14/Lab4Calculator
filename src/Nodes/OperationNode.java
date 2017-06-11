@@ -12,21 +12,17 @@ public class OperationNode implements Node {
     Node second;
     double value;
     DefaultMutableTreeNode leaf;
-    public OperationNode(Node first,String operation,Node second,double value,int numberOfOperation){
+    public OperationNode(Node first,String operation,Node second,double value){
         this.first=first;
         this.second=second;
         this.operation=operation;
         this.value=value;
-        this.numberOfOperation=numberOfOperation;
         leaf = new DefaultMutableTreeNode(operation);
-        leaf.add(first.getLeaf());
-        leaf.add(second.getLeaf());
+        if(first!=null&&second!=null) {
+            leaf.add(first.getLeaf());
+            leaf.add(second.getLeaf());
+        }
     }
-    @Override
-    public int getNumberOfOperation() {
-        return numberOfOperation;
-    }
-
     @Override
     public double getValue() {
         return value;

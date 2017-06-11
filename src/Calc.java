@@ -45,16 +45,16 @@ public class Calc {
         Node l = st.removeLast();
         switch (op) {
             case '+':
-                operationNode=new OperationNode(l,"+",r,l.getValue() + r.getValue(),sch);
+                operationNode=new OperationNode(l,"+",r,l.getValue() + r.getValue());
                 break;
             case '-':
-                operationNode=new OperationNode(l,"-",r,l.getValue() - r.getValue(),sch);
+                operationNode=new OperationNode(l,"-",r,l.getValue() - r.getValue());
                 break;
             case '*':
-                operationNode=new OperationNode(l,"*",r,l.getValue() * r.getValue(),sch);
+                operationNode=new OperationNode(l,"*",r,l.getValue() * r.getValue());
                 break;
             case '/':
-                operationNode=new OperationNode(l,"/",r,l.getValue() / r.getValue(),sch);
+                operationNode=new OperationNode(l,"/",r,l.getValue() / r.getValue());
                 break;
             case '%':
                 //st.add(new Nodes.OperationNode(l,"%",r,l.getValue() + r.getValue())); проценты над добавить БУДЕТ TODO:
@@ -66,12 +66,12 @@ public class Calc {
             int result=1;
             for (int i=1;i<=r.getValue();i++)
                 result*=i;
-            operationNode=new OperationNode(r,"!",r,result,sch);
+            operationNode=new OperationNode(r,"!",r,result);
            // System.out.println(r.getClass().getName());
         }
         st.add(operationNode);
         operationNodeList.add(operationNode);
-        System.out.println(st.getLast().getNumberOfOperation()+") "+st.getLast().getAllExpression());
+        System.out.println(sch+") "+st.getLast().getAllExpression());
     }
 
     public List<OperationNode> eval(String s) {

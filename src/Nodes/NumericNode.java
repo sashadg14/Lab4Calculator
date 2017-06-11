@@ -14,11 +14,6 @@ public class NumericNode implements Node {
         leaf=new DefaultMutableTreeNode(String.valueOf(value));
     }
     @Override
-    public int getNumberOfOperation() {
-        return numberOfOperation;
-    }
-
-    @Override
     public double getValue() {
         return value;
     }
