@@ -1,16 +1,28 @@
 /**
  * Created by alex o n 10.06.2017.
  */
+
+import Nodes.Node;
+import Nodes.NumericNode;
+import Nodes.OperationNode;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
 public class Calc {
-    static int sch=0;
-    static boolean isDelim(char c) {
+     int sch=0;
+     private List<OperationNode> operationNodeList;
+     public Calc(){
+         operationNodeList= new ArrayList<>();
+     }
+     boolean isDelim(char c) {
         return c == ' ';
     }
-    static boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
+     boolean isOperator(char c) {
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '%'||c=='!';
     }
-    static int priority(char op) {
+     int priority(char op) {
         switch (op) {
             case '+':
             case '-':
@@ -18,41 +30,51 @@ public class Calc {
             case '*':
             case '/':
             case '%':
-            //case '!':
                 return 2;
+            case '!':
+                return 3;
             default:
                 return -1;
         }
     }
-    static void processOperator(LinkedList<Node> st, char op) {
-        if(op!='!')
-        {
+     void processOperator(LinkedList<Node> st, char op) {
+        sch++;
+        OperationNode operationNode = null;
+        if(op!='!') {
         Node r = st.removeLast();
         Node l = st.removeLast();
-        sch++;
-        //System.out.println(sch+") "+l.getValue()+""+(char)op+""+r.getValue());
         switch (op) {
             case '+':
-                st.add(new OperationNode(l,"+",r,l.getValue() + r.getValue(),sch));
+                operationNode=new OperationNode(l,"+",r,l.getValue() + r.getValue(),sch);
                 break;
             case '-':
-                st.add(new OperationNode(l,"-",r,l.getValue() - r.getValue(),sch));
+                operationNode=new OperationNode(l,"-",r,l.getValue() - r.getValue(),sch);
                 break;
             case '*':
-                st.add(new OperationNode(l,"*",r,l.getValue() * r.getValue(),sch));
+                operationNode=new OperationNode(l,"*",r,l.getValue() * r.getValue(),sch);
                 break;
             case '/':
-                st.add(new OperationNode(l,"/",r,l.getValue() / r.getValue(),sch));
+                operationNode=new OperationNode(l,"/",r,l.getValue() / r.getValue(),sch);
                 break;
             case '%':
-                //st.add(new OperationNode(l,"%",r,l.getValue() + r.getValue())); проценты над добавить БУДЕТ TODO:
+                //st.add(new Nodes.OperationNode(l,"%",r,l.getValue() + r.getValue())); проценты над добавить БУДЕТ TODO:
                 break;
         }
-        System.out.println(st.getLast().getNumberOfOperation()+") "+st.getLast().getAllExpression());
         }
+        else {
+            Node r = st.removeLast();
+            int result=1;
+            for (int i=1;i<=r.getValue();i++)
+                result*=i;
+            operationNode=new OperationNode(r,"!",r,result,sch);
+           // System.out.println(r.getClass().getName());
+        }
+        st.add(operationNode);
+        operationNodeList.add(operationNode);
+        System.out.println(st.getLast().getNumberOfOperation()+") "+st.getLast().getAllExpression());
     }
 
-    public static double eval(String s) {
+    public List<OperationNode> eval(String s) {
         LinkedList<Node> st = new LinkedList<Node>();
         LinkedList<Character> op = new LinkedList<Character>();
         for (int i = 0; i < s.length(); i++) {
@@ -79,11 +101,14 @@ public class Calc {
         }
         while (!op.isEmpty())
             processOperator(st, op.removeLast());
-        return st.get(0).getValue();
+        return operationNodeList;
     }
-    public static void main(String[] args) throws Exception {
-        String exp = "7+(5-2*(3-4))-(2*2-4*(4-3))";
-        System.out.println(eval(exp));
+   /* public  void main(String[] args) throws Exception {
+        String exp = "7+(5-2*(3-4))-(2*2-4*(4-3!))";
+        //System.out.println(eval(exp));
+        //System.out.println(eval("(4-1)!"));
+        nodeHandler= new NodeHandler();
+        new CalculatorWindow(eval(exp).getLeaf());
 
-    }
+    }*/
 }
