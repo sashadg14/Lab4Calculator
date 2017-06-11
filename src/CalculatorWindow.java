@@ -13,8 +13,8 @@ import java.util.List;
 public class CalculatorWindow {
     private JTree tree;
     JFrame jFrame;
-    JButton button;
-    JButton button2;
+    JButton leftButton;
+    JButton rightButton;
     int buttonSize=60;
     int topMargin=60;
     JScrollPane jScrollPane;
@@ -43,39 +43,18 @@ public class CalculatorWindow {
         ansverLabel.setBounds(0,0,200,topMargin-10);
         jFrame.add(ansverLabel);
 
-        button= new JButton("<<");
-        button2= new JButton(">>");
+       /* leftButton = new JButton("<<");
+        rightButton= new JButton(">>");*/
         jFrame.add(jScrollPane);
-        /*jFrame.add(button);
-        jFrame.add(button2);*/
+        /*jFrame.add(leftButton);
+        jFrame.add(rightButton);*/
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setTitle("JTree Example");
         jFrame.setBounds(400, 200,700,400);
         jFrame.setVisible(true);
         jFrame.getContentPane().setLayout(null);
         jScrollPane.setBounds(0,topMargin,200,300);
-        button.setBounds(200,topMargin,buttonSize,buttonSize);
-        button2.setBounds(200+buttonSize,topMargin,buttonSize,buttonSize);
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-            nodeHandler.NextStep();
-                DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
-                treeModel.reload();
-                for (int i=0;i<tree.getRowCount();i++)
-                tree.expandRow(i);
-            }
-        });
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-            nodeHandler.PreviousStep();
-                DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
-                treeModel.reload();
-                for (int i=0;i<tree.getRowCount();i++)
-                    tree.expandRow(i);
-            }
-        });
+
         createButtons();
     }
 
@@ -88,6 +67,30 @@ public class CalculatorWindow {
     }
 
     void createButtons(){
+        leftButton = new JButton("<<");
+        rightButton = new JButton(">>");
+        jFrame.add(leftButton);
+        jFrame.add(rightButton);
+        leftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                nodeHandler.NextStep();
+                DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
+                treeModel.reload();
+                for (int i=0;i<tree.getRowCount();i++)
+                    tree.expandRow(i);
+            }
+        });
+        rightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                nodeHandler.PreviousStep();
+                DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
+                treeModel.reload();
+                for (int i=0;i<tree.getRowCount();i++)
+                    tree.expandRow(i);
+            }
+        });
         nonActionButtons=new ArrayList<>();
         nonActionButtons.add(createButton("(",200,topMargin,buttonSize,buttonSize));
         nonActionButtons.add(createButton(")",200+buttonSize,topMargin,buttonSize,buttonSize));
@@ -99,20 +102,23 @@ public class CalculatorWindow {
         nonActionButtons.add(createButton("8",200+buttonSize,topMargin+buttonSize,buttonSize,buttonSize));
         nonActionButtons.add(createButton("9",200+buttonSize*2,topMargin+buttonSize,buttonSize,buttonSize));
         nonActionButtons.add(createButton("/",200+buttonSize*3,topMargin+buttonSize,buttonSize,buttonSize));
+        createWorkingButton("=",200+buttonSize*4,topMargin+buttonSize,buttonSize,buttonSize);
 
         nonActionButtons.add(createButton("4",200,topMargin+buttonSize*2,buttonSize,buttonSize));
         nonActionButtons.add(createButton("5",200+buttonSize,topMargin+buttonSize*2,buttonSize,buttonSize));
         nonActionButtons.add(createButton("6",200+buttonSize*2,topMargin+buttonSize*2,buttonSize,buttonSize));
         nonActionButtons.add(createButton("*",200+buttonSize*3,topMargin+buttonSize*2,buttonSize,buttonSize));
+        leftButton.setBounds(200+buttonSize*4,topMargin+buttonSize*2,buttonSize,buttonSize);
 
         nonActionButtons.add(createButton("1",200,topMargin+buttonSize*3,buttonSize,buttonSize));
         nonActionButtons.add(createButton("2",200+buttonSize,topMargin+buttonSize*3,buttonSize,buttonSize));
         nonActionButtons.add(createButton("3",200+buttonSize*2,topMargin+buttonSize*3,buttonSize,buttonSize));
         nonActionButtons.add(createButton("-",200+buttonSize*3,topMargin+buttonSize*3,buttonSize,buttonSize));
+        rightButton.setBounds(200+buttonSize*4,topMargin+buttonSize*3,buttonSize,buttonSize);
 
         nonActionButtons.add(createButton("0",200,topMargin+buttonSize*4,buttonSize,buttonSize));
         nonActionButtons.add(createButton(".",200+buttonSize,topMargin+buttonSize*4,buttonSize,buttonSize));
-        createWorkingButton("=",200+buttonSize*2,topMargin+buttonSize*4,buttonSize,buttonSize);
+        createButton("sqrt",200+buttonSize*2,topMargin+buttonSize*4,buttonSize,buttonSize);
         nonActionButtons.add(createButton("+",200+buttonSize*3,topMargin+buttonSize*4,buttonSize,buttonSize));
     }
     JButton createButton(final String text, int var1, int var2, int var3, int var4){
@@ -122,10 +128,17 @@ public class CalculatorWindow {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(text.equalsIgnoreCase("1/x"))
-                inputLabel.setText(inputLabel.getText()+"1/");
-                else
-                inputLabel.setText(inputLabel.getText()+text);
+                switch (text){
+                    case "1/x":
+                        inputLabel.setText(inputLabel.getText()+"1/");
+                        break;
+                    case "sqrt":
+                        inputLabel.setText(inputLabel.getText()+"sqrt(");
+                        break;
+                    default:
+                        inputLabel.setText(inputLabel.getText()+text);
+
+                }
             }
         });
         return button;
