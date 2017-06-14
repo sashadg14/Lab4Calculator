@@ -17,7 +17,10 @@ class Calc {
     }
      private boolean isOperator(String c) {
         return c.equalsIgnoreCase("+") || c.equalsIgnoreCase("-") ||
-                c.equalsIgnoreCase("*") || c.equalsIgnoreCase("/") || c.equalsIgnoreCase("%")||c.equalsIgnoreCase("!")||c.equalsIgnoreCase("t");
+                c.equalsIgnoreCase("*") || c.equalsIgnoreCase("/") || c.equalsIgnoreCase("%")||c.equalsIgnoreCase("!")||
+                c.equalsIgnoreCase("t")||
+                c.equalsIgnoreCase("g")||
+                c.equalsIgnoreCase("n");
     }
      private int priorityOfOperation(String op) {
          switch (op) {
@@ -30,6 +33,8 @@ class Calc {
                 return 2;
             case "!":
             case "t":
+             case "n":
+             case "g":
                 return 4;
             default:
                 return 0;
@@ -50,6 +55,16 @@ class Calc {
         }else if(op.equalsIgnoreCase("t")){
             Node r = st.removeLast();
             operationNode=new OperationNode(r,"sqrt",r,Math.sqrt(r.getValue()));
+            operationNodeList.add(operationNode);
+            st.add(operationNode);
+        }else if(op.equalsIgnoreCase("g")){
+            Node r = st.removeLast();
+            operationNode=new OperationNode(r,"log",r,Math.log10(r.getValue()));
+            operationNodeList.add(operationNode);
+            st.add(operationNode);
+        }else if(op.equalsIgnoreCase("n")){
+            Node r = st.removeLast();
+            operationNode=new OperationNode(r,"ln",r,Math.log(r.getValue()));
             operationNodeList.add(operationNode);
             st.add(operationNode);
         }else {

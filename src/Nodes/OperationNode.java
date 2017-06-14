@@ -30,7 +30,7 @@ public class OperationNode implements Node {
     public String getTotalExpression(){
         if(operation.equalsIgnoreCase("!"))
         return String.valueOf(first.getValue()+operation).replace(".0","");
-        if(operation.equalsIgnoreCase("sqrt"))
+        if(operation.equalsIgnoreCase("sqrt")||operation.equalsIgnoreCase("ln")||operation.equalsIgnoreCase("log"))
         return String.valueOf(operation+"("+first.getValue()+")").replace(".0","");
         return String.valueOf(first.getValue()+operation+second.getValue()).replace(".0","");
     }
