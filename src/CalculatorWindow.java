@@ -4,8 +4,6 @@ import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by alex o n 11.06.2017.
@@ -21,7 +19,6 @@ public class CalculatorWindow {
     TextArea inputLabel;
     JTextField ansverLabel;
     NodeHandler nodeHandler;
-    List<JButton> nonActionButtons;
     DefaultMutableTreeNode rootNode;
     public CalculatorWindow()
     {
@@ -56,14 +53,7 @@ public class CalculatorWindow {
         jScrollPane.setBounds(0,topMargin,200,300);
 
         createButtons();
-    }
-
-    void createTree(){
-        DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode)model.getRoot();
-        root.setUserObject("");
-        root.removeAllChildren();
-        model.reload(root);
+        jFrame.update(jFrame.getGraphics());
     }
 
     void createButtons(){
@@ -74,7 +64,7 @@ public class CalculatorWindow {
         leftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                nodeHandler.NextStep();
+                inputLabel.setText(nodeHandler.NextStep());
                 DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
                 treeModel.reload();
                 for (int i=0;i<tree.getRowCount();i++)
@@ -84,44 +74,43 @@ public class CalculatorWindow {
         rightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                nodeHandler.PreviousStep();
+                inputLabel.setText(nodeHandler.PreviousStep());
                 DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
                 treeModel.reload();
                 for (int i=0;i<tree.getRowCount();i++)
                     tree.expandRow(i);
             }
         });
-        nonActionButtons=new ArrayList<>();
-        nonActionButtons.add(createButton("(",200,topMargin,buttonSize,buttonSize));
-        nonActionButtons.add(createButton(")",200+buttonSize,topMargin,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("%",200+buttonSize*2,topMargin,buttonSize,buttonSize));
+        createButton("(",200,topMargin,buttonSize,buttonSize);
+        createButton(")",200+buttonSize,topMargin,buttonSize,buttonSize);
+        createButton("%",200+buttonSize*2,topMargin,buttonSize,buttonSize);
         createButton("1/x",200+buttonSize*3,topMargin,buttonSize,buttonSize);
         createCleanButton("C",200+buttonSize*4,topMargin,buttonSize,buttonSize);
 
-        nonActionButtons.add(createButton("7",200,topMargin+buttonSize,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("8",200+buttonSize,topMargin+buttonSize,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("9",200+buttonSize*2,topMargin+buttonSize,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("/",200+buttonSize*3,topMargin+buttonSize,buttonSize,buttonSize));
+        createButton("7",200,topMargin+buttonSize,buttonSize,buttonSize);
+        createButton("8",200+buttonSize,topMargin+buttonSize,buttonSize,buttonSize);
+        createButton("9",200+buttonSize*2,topMargin+buttonSize,buttonSize,buttonSize);
+        createButton("/",200+buttonSize*3,topMargin+buttonSize,buttonSize,buttonSize);
         createWorkingButton("=",200+buttonSize*4,topMargin+buttonSize,buttonSize,buttonSize);
 
-        nonActionButtons.add(createButton("4",200,topMargin+buttonSize*2,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("5",200+buttonSize,topMargin+buttonSize*2,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("6",200+buttonSize*2,topMargin+buttonSize*2,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("*",200+buttonSize*3,topMargin+buttonSize*2,buttonSize,buttonSize));
+        createButton("4",200,topMargin+buttonSize*2,buttonSize,buttonSize);
+        createButton("5",200+buttonSize,topMargin+buttonSize*2,buttonSize,buttonSize);
+        createButton("6",200+buttonSize*2,topMargin+buttonSize*2,buttonSize,buttonSize);
+        createButton("*",200+buttonSize*3,topMargin+buttonSize*2,buttonSize,buttonSize);
         leftButton.setBounds(200+buttonSize*4,topMargin+buttonSize*2,buttonSize,buttonSize);
 
-        nonActionButtons.add(createButton("1",200,topMargin+buttonSize*3,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("2",200+buttonSize,topMargin+buttonSize*3,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("3",200+buttonSize*2,topMargin+buttonSize*3,buttonSize,buttonSize));
-        nonActionButtons.add(createButton("-",200+buttonSize*3,topMargin+buttonSize*3,buttonSize,buttonSize));
+        createButton("1",200,topMargin+buttonSize*3,buttonSize,buttonSize);
+        createButton("2",200+buttonSize,topMargin+buttonSize*3,buttonSize,buttonSize);
+        createButton("3",200+buttonSize*2,topMargin+buttonSize*3,buttonSize,buttonSize);
+        createButton("-",200+buttonSize*3,topMargin+buttonSize*3,buttonSize,buttonSize);
         rightButton.setBounds(200+buttonSize*4,topMargin+buttonSize*3,buttonSize,buttonSize);
 
-        nonActionButtons.add(createButton("0",200,topMargin+buttonSize*4,buttonSize,buttonSize));
-        nonActionButtons.add(createButton(".",200+buttonSize,topMargin+buttonSize*4,buttonSize,buttonSize));
+        createButton("0",200,topMargin+buttonSize*4,buttonSize,buttonSize);
+        createButton(".",200+buttonSize,topMargin+buttonSize*4,buttonSize,buttonSize);
         createButton("sqrt",200+buttonSize*2,topMargin+buttonSize*4,buttonSize,buttonSize);
-        nonActionButtons.add(createButton("+",200+buttonSize*3,topMargin+buttonSize*4,buttonSize,buttonSize));
+        createButton("+",200+buttonSize*3,topMargin+buttonSize*4,buttonSize,buttonSize);
     }
-    JButton createButton(final String text, int var1, int var2, int var3, int var4){
+    void createButton(final String text, int var1, int var2, int var3, int var4){
         JButton button= new JButton(text);
         button.setBounds(var1, var2, var3, var4);
         jFrame.add(button);
@@ -141,7 +130,6 @@ public class CalculatorWindow {
                 }
             }
         });
-        return button;
     }
     void createCleanButton(String text,int var1, int var2, int var3, int var4){
         JButton button= new JButton(text);
@@ -168,8 +156,9 @@ public class CalculatorWindow {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String exp = "7+(5-2*(3-4))-(2*2-4*(4-3!))";
+               // String exp = "7+(5-2*(3-4))-(2*2-4*(4-3!))";
                 nodeHandler.setOperationNodeList(new Calc().eval(inputLabel.getText()));
+                nodeHandler.setExpression(inputLabel.getText());
                 ansverLabel.setText(String.valueOf(nodeHandler.getOperationNodeList().get(nodeHandler.getOperationNodeList().size()-1).getValue()));
                 DefaultTreeModel treeModel= (DefaultTreeModel) tree.getModel();
                 treeModel.setRoot(nodeHandler.getOperationNodeList().get(nodeHandler.getOperationNodeList().size()-1).getLeaf());

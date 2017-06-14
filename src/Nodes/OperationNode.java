@@ -6,12 +6,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Created by alex o n 11.06.2017.
  */
 public class OperationNode implements Node {
-    int numberOfOperation=0;
     Node first;
     String operation;
     Node second;
     double value;
     DefaultMutableTreeNode leaf;
+    String allExpression;
     public OperationNode(Node first,String operation,Node second,double value){
         this.first=first;
         this.second=second;
@@ -27,8 +27,12 @@ public class OperationNode implements Node {
     public double getValue() {
         return value;
     }
-    public String getAllExpression(){
-        return String.valueOf(first.getValue()+operation+second.getValue());
+    public String getTotalExpression(){
+        if(operation.equalsIgnoreCase("!"))
+        return String.valueOf(first.getValue()+operation).replace(".0","");
+        if(operation.equalsIgnoreCase("sqrt"))
+        return String.valueOf(operation+"("+first.getValue()+")").replace(".0","");
+        return String.valueOf(first.getValue()+operation+second.getValue()).replace(".0","");
     }
 
     @Override
@@ -44,7 +48,15 @@ public class OperationNode implements Node {
             leaf.add(first.getLeaf());
             leaf.add(second.getLeaf());
             leaf.setUserObject(operation);
-            System.out.println(first.getLeaf()+" "+second.getLeaf());
+            //System.out.println(first.getLeaf()+" "+second.getLeaf());
         }
     };
+
+    public String getAllExpression() {
+        return allExpression;
+    }
+
+    public void setAllExpression(String allExpression) {
+        this.allExpression = allExpression;
+    }
 }

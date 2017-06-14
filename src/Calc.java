@@ -80,7 +80,7 @@ public class Calc {
             }
             st.add(operationNode);
             operationNodeList.add(operationNode);
-            System.out.println(sch + ") " + st.getLast().getAllExpression());
+            System.out.println(sch + ") " + st.getLast().getTotalExpression());
         }
     }
 

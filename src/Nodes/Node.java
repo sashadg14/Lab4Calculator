@@ -7,6 +7,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public interface Node{
     public double getValue();
-    public String getAllExpression();
+    public String getTotalExpression();
     public DefaultMutableTreeNode getLeaf();
 }

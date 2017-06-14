@@ -19,7 +19,7 @@ public class NumericNode implements Node {
     }
 
     @Override
-    public String getAllExpression() {
+    public String getTotalExpression() {
         return String.valueOf(value);
     }
 
