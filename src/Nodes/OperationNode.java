@@ -6,12 +6,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Created by alex o n 11.06.2017.
  */
 public class OperationNode implements Node {
-    Node first;
-    String operation;
-    Node second;
-    double value;
-    DefaultMutableTreeNode leaf;
-    String allExpression;
+    private final Node first;
+    private final String operation;
+    private final Node second;
+    private final double value;
+    private final DefaultMutableTreeNode leaf;
+    private String allExpression;
     public OperationNode(Node first,String operation,Node second,double value){
         this.first=first;
         this.second=second;
@@ -50,7 +50,7 @@ public class OperationNode implements Node {
             leaf.setUserObject(operation);
             //System.out.println(first.getLeaf()+" "+second.getLeaf());
         }
-    };
+    }
 
     public String getAllExpression() {
         return allExpression;

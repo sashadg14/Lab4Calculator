@@ -7,8 +7,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class NumericNode implements Node {
     int numberOfOperation=0;
-    double value=0;
-    DefaultMutableTreeNode leaf;
+    private double value=0;
+    private final DefaultMutableTreeNode leaf;
     public NumericNode(double value){
         this.value=value;
         leaf=new DefaultMutableTreeNode(String.valueOf(value));

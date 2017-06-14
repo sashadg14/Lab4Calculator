@@ -1,7 +1,3 @@
-/**
- * Created by alex o n 10.06.2017.
- */
-
 import Nodes.Node;
 import Nodes.NumericNode;
 import Nodes.OperationNode;
@@ -10,20 +6,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Calc {
-     int sch=0;
-     private List<OperationNode> operationNodeList;
+class Calc {
+     private int sch=0;
+     private final List<OperationNode> operationNodeList;
      public Calc(){
          operationNodeList= new ArrayList<>();
      }
-     boolean isDelim(String c) {
+     private boolean isDelim(String c) {
         return c.equalsIgnoreCase(" ");
     }
-     boolean isOperator(String c) {
+     private boolean isOperator(String c) {
         return c.equalsIgnoreCase("+") || c.equalsIgnoreCase("-") ||
                 c.equalsIgnoreCase("*") || c.equalsIgnoreCase("/") || c.equalsIgnoreCase("%")||c.equalsIgnoreCase("!")||c.equalsIgnoreCase("t");
     }
-     int priority(String  op) {
+     private int priorityOfOperation(String op) {
          switch (op) {
             case "+":
             case "-":
@@ -36,10 +32,10 @@ public class Calc {
             case "t":
                 return 4;
             default:
-                return -1;
+                return 0;
         }
     }
-     void processOperator(LinkedList<Node> st, String op) {
+     private void calculatingOperator(LinkedList<Node> st, String op) {
         sch++;
         OperationNode operationNode = null;
         if(op.equalsIgnoreCase("!")) {
@@ -50,14 +46,12 @@ public class Calc {
             operationNode=new OperationNode(r,"!",r,result);
             operationNodeList.add(operationNode);
             st.add(operationNode);
-             System.out.println("adsasda "+result);
-        return;
+             //System.out.println("adsasda "+result);
         }else if(op.equalsIgnoreCase("t")){
             Node r = st.removeLast();
             operationNode=new OperationNode(r,"sqrt",r,Math.sqrt(r.getValue()));
             operationNodeList.add(operationNode);
             st.add(operationNode);
-            return;
         }else {
             Node r = st.removeLast();
             Node l = st.removeLast();
@@ -85,8 +79,8 @@ public class Calc {
     }
 
     public List<OperationNode> eval(String s) {
-        LinkedList<Node> st = new LinkedList<Node>();
-        LinkedList<String> op = new LinkedList<String>();
+        LinkedList<Node> st = new LinkedList<>();
+        LinkedList<String> op = new LinkedList<>();
         for (int i = 0; i < s.length(); i++) {
             String c =""+s.charAt(i);
             if(c.equalsIgnoreCase("s")||c.equalsIgnoreCase("q")||c.equalsIgnoreCase("r")||c.equalsIgnoreCase("l")||c.equalsIgnoreCase("o"))
@@ -98,11 +92,11 @@ public class Calc {
                 op.add("(");
             else if (c.equalsIgnoreCase(")")) {
                 while (!op.getLast().equalsIgnoreCase("("))
-                    processOperator(st, op.removeLast());
+                    calculatingOperator(st, op.removeLast());
                 op.removeLast();
             } else if (isOperator(c)) {
-                while (!op.isEmpty() && priority(op.getLast()) >= priority(c))
-                    processOperator(st, op.removeLast());
+                while (!op.isEmpty() && priorityOfOperation(op.getLast()) >= priorityOfOperation(c))
+                    calculatingOperator(st, op.removeLast());
                 op.add(c);
             } else {
                 String operand = "";
@@ -113,7 +107,7 @@ public class Calc {
             }
         }
         while (!op.isEmpty())
-            processOperator(st, op.removeLast());
+            calculatingOperator(st, op.removeLast());
         return operationNodeList;
     }
    /* public  void main(String[] args) throws Exception {

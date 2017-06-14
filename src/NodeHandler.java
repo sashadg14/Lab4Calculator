@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * Created by alex o n 11.06.2017.
  */
-public class NodeHandler {
+class NodeHandler {
     private List<OperationNode> operationNodeList;
     private String expression;
     private int noOfOperation =0;
-    private List<String> arrayOfStatesOfExpression;
+    private final List<String> arrayOfStatesOfExpression;
     public NodeHandler(){
         operationNodeList= new LinkedList<>();
         arrayOfStatesOfExpression = new ArrayList<>();
@@ -49,9 +49,9 @@ public class NodeHandler {
     private void calculateArrayOfStatesOfExpression(String expression) {
         arrayOfStatesOfExpression.clear();
         arrayOfStatesOfExpression.add(expression);
-        for (int i=0;i<operationNodeList.size();i++) {
-            expression=changeExpressionToNextStep(operationNodeList.get(i),expression);
-             arrayOfStatesOfExpression.add(expression);
+        for (OperationNode anOperationNodeList : operationNodeList) {
+            expression = changeExpressionToNextStep(anOperationNodeList, expression);
+            arrayOfStatesOfExpression.add(expression);
         }
         for (String string: arrayOfStatesOfExpression){
             System.out.println("-------"+string);

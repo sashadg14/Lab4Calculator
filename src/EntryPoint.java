@@ -1,7 +1,7 @@
 /**
  * Created by alex o n 11.06.2017.
  */
-public class EntryPoint {
+class EntryPoint {
     public static void main(String[] args){
 
         //System.out.println(eval(exp));
